@@ -6,12 +6,12 @@
 .errordetails_prograph {
   display: flex;
   flex-direction: column;
-  align-items: center;     /* بلاک‌ها وسط */
+  align-items: center;  
   justify-content: center;
   text-align: center;
 }
 
-/* پاراگراف اول */
+
 .footer_text {
   font-weight: 800;
   font-size: 28px;
@@ -19,16 +19,16 @@
   text-align: center;
 }
 
-/* پاراگراف دوم - موبایل */
+
 .footer_subtext {
   font-weight: 600;
   font-size: 16px;
   color: #282828;
-  text-align: center;   /* موبایل وسط */
+  text-align: center;   
   margin-top: 0;
 }
 
-/* دسکتاپ */
+
 @media (min-width: 1024px) {
   .errordetails {
     display: flex;
@@ -61,7 +61,7 @@
     font-size: 24px;
 
     direction: rtl;
-    text-align: right;     /* متن از راست */
-    align-self: flex-end;  /* 👈 کلید حل مشکل */
+    text-align: right;     
+    align-self: flex-end;  
   }
 }
