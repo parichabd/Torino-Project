@@ -1,5 +1,5 @@
 import Layout from "@/Components/layout/Layout";
-import styles from "../styles/error500.module.css";
+import styles from "./error500.module.css";
 
 function ServerConnectionError() {
   return (

@@ -8,6 +8,3 @@ function Home() {
 
 export default Home;
 
-// export async function getServerSideProps() {
-//   throw new Error("TEST 500");
-// }
