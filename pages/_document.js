@@ -4,7 +4,8 @@ export default function Document() {
   return (
     <Html lang="fa" dir="rtl">
       <Head>
-        <link rel="icon" href="/image/cover.png" />
+        <link rel="icon" href="/image/cover.svg" />
+        <title>Torino</title>
       </Head>
       <body>
         <Main />
