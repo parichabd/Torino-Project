@@ -1,20 +1,48 @@
-import Link from "next/link";
 import styles from "./layout.module.css";
+import Link from "next/link";
+
 function layout({ children }) {
   return (
     <div className={styles.layout}>
       <header className={`${styles.header_layout} ${styles.container}`}>
-        <Link href={"/"}>
-          <img src="/icon/Group 46.png" alt="menu" />
-        </Link>
-        <Link href={"/"}>
-          <img src="/icon/sign in buttom.png" />
-        </Link>
+        <div>
+          <div className={styles.desktop_menu}>
+            <img src="/image/Torino (4) 1.png" />
+            <Link href={"/"}>صفحه اصلی</Link>
+            <Link href={"/"}>خدمات گردشگری</Link>
+            <Link href={"/"}>درباره ما</Link>
+            <Link href={"/"}>تماس با ما</Link>
+          </div>
+          <div className={styles.mobile_menu}>
+            <Link href={"/"}>
+              <img src="/icon/Group 46.png" alt="menu" />
+            </Link>
+          </div>
+        </div>
+        <div>
+          <div className={styles.desktop_menu}>
+            <div className={styles.login_desktop}>
+              <div className={styles.login_icon}>
+                <img src="/icon/profile.png" />
+                <span>ورود </span>
+                <span>|</span>
+              </div>
+              <span className={styles.signup}>ثبت نام</span>
+            </div>
+          </div>
+          <div className={styles.mobile_menu}>
+            <Link href={"/"}>
+              <img src="/icon/sign in buttom.png" />
+            </Link>
+          </div>
+        </div>
       </header>
+          <div className={styles.dividerer_menu}></div>
       <main className={`${styles.container} ${styles.main}`}>{children}</main>
       <footer className={`${styles.foot_layout} ${styles.container}`}>
         <div className={styles.divider}></div>
-        <div className={styles.footer_links}>
+        <div className={styles.footer_desktop}>
+          <div className={styles.footer_links}>
           <div className={styles.torino_info}>
             <h1>تورینو</h1>
             <Link href={"/"}>درباره ما</Link>
@@ -31,21 +59,22 @@ function layout({ children }) {
           </div>
         </div>
         <div className={styles.footer_icons}>
-          <div className={styles.footer_icons_img}>
+          <div className={ `${styles.footer_icons_img} ${styles.footer_icons_img}`}>
             <div className={styles.images}>
-              <img src="/image/ecunion-35c3c933.png" />
-              <img src="/image/samandehi-6e2b448a.png" />
-              <img src="/image/aira-682b7c43.png" />
+              <img src="/image/ecunion-35c3c933.svg" />
+              <img src="/image/samandehi-6e2b448a.svg" />
+              <img src="/image/aira-682b7c43.svg" />
             </div>
             <div className={`${styles.images} ${styles.center}`}>
-              <img src="/image/state-airline-f45c55b2 1.png" />
-              <img src="/image/passenger-rights-48368f81 1.png" />
+              <img src="/image/state-airline-f45c55b2 1.svg" />
+              <img src="/image/passenger-rights-48368f81 1.svg" />
             </div>
           </div>
           <div className={styles.footer_icons_logo}>
             <img src="/image/Torino (4) 1.png" />
-            <p>تلفن پشتیبانی:021-8574</p>
+            <p>تلفن پشتیبانی:۸۵۷۴-۰۲۱ </p> 
           </div>
+        </div>
         </div>
         <div className={styles.divider_two}></div>
         <p className={styles.paragraph}>

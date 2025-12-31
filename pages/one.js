@@ -7,8 +7,8 @@ function ServerConnectionError() {
       <div className={styles.errordetails}>
         <img src="/image/error/Error Lamp Robot.png" />
         <div className={styles.errordetails_prograph}>
-          <p>اتصال با سرور برقرار نیست!</p>
-          <p>لطفا بعدا دوباره امتحان کنید.</p>
+          <p className={styles.footer_text}>اتصال با سرور برقرار نیست!</p>
+          <p className={styles.footer_subtext}>لطفا بعدا دوباره امتحان کنید.</p>
         </div>
       </div>
     </Layout>
