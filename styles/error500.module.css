@@ -1,0 +1,20 @@
+.errordetails img {
+    width: 322px;
+    height: 322px;
+}
+
+.errordetails p {
+    text-align: center;
+}
+
+.errordetails p:first-of-type{
+    font-weight: 800;
+    font-size: 28px;
+    color: #282828;
+}
+
+.errordetails_prograph p:last-of-type{
+    font-weight: 600;
+    font-size: 16px;
+    color: #282828;
+}
