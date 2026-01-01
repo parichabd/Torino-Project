@@ -4,9 +4,9 @@ import { useSendOtp } from "@/hooks/useSendOtp";
 import styles from "./AuthToast.module.css";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
-export default function AuthToast({ onClose }) {
+export default function AuthToast({ onClose, mode = "login" }) {
   const [step, setStep] = useState("PHONE"); // PHONE | OTP
-  const [isRegister, setIsRegister] = useState(false);
+  const [isRegister, setIsRegister] = useState(mode === "register");
   const [mobile, setMobile] = useState("");
   const [timeLeft, setTimeLeft] = useState(120);
 
@@ -60,8 +60,7 @@ export default function AuthToast({ onClose }) {
     return `${m}:${s.toString().padStart(2, "0")}`;
   };
 
-  /* ===== OTP ===== */
-
+  /* OTP */
   const handleOtpChange = (index, value) => {
     if (!/^\d?$/.test(value)) return;
 
@@ -97,7 +96,7 @@ export default function AuthToast({ onClose }) {
   return (
     <div className={styles.toast_overlay}>
       <div className={styles.toast_box}>
-        {/* ===== دکمه بالا ===== */}
+        {/* دکمه بالا */}
         {step === "PHONE" ? (
           isRegister ? (
             <button
@@ -129,7 +128,7 @@ export default function AuthToast({ onClose }) {
           </button>
         )}
 
-        {/* ===== PHONE ===== */}
+        {/* PHONE */}
         {step === "PHONE" && (
           <>
             <h2 className={styles.title}>
@@ -137,7 +136,6 @@ export default function AuthToast({ onClose }) {
             </h2>
 
             {!isRegister ? (
-              /* ===== فرم ورود ===== */
               <form
                 className={styles.form}
                 onSubmit={handleSubmit(submitPhone)}
@@ -174,7 +172,6 @@ export default function AuthToast({ onClose }) {
                 </button>
               </form>
             ) : (
-              /* ===== فرم ثبت‌نام ساده ===== */
               <form
                 className={styles.form}
                 onSubmit={handleSubmit(submitPhone)}
@@ -207,7 +204,7 @@ export default function AuthToast({ onClose }) {
           </>
         )}
 
-        {/* ===== OTP ===== */}
+        {/* OTP */}
         {step === "OTP" && (
           <>
             <h2 className={styles.title}>کد تایید را وارد کنید</h2>

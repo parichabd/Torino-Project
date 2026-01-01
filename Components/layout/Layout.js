@@ -8,15 +8,23 @@ import { MdOutlineAirplaneTicket } from "react-icons/md";
 import { PiUserSoundDuotone } from "react-icons/pi";
 import { MdOutlinePermPhoneMsg } from "react-icons/md";
 
-function layout({ children }) {
+function Layout({ children }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isToastOpen, setIsToastOpen] = useState(false);
+  const [authMode, setAuthMode] = useState("login"); // 👈 مهم
+
   const menuHandler = () => {
-    setIsOpen((isOpen) => !isOpen);
+    setIsOpen((prev) => !prev);
   };
 
-  const toastHandler = () => {
-    setIsToastOpen((isToastOpen) => !isToastOpen);
+  const openLogin = () => {
+    setAuthMode("login");
+    setIsToastOpen(true);
+  };
+
+  const openRegister = () => {
+    setAuthMode("register");
+    setIsToastOpen(true);
   };
 
   return (
@@ -25,11 +33,12 @@ function layout({ children }) {
         <div>
           <div className={styles.desktop_menu}>
             <img src="/image/Torino (4) 1.png" />
-            <Link href={"/"}>صفحه اصلی</Link>
-            <Link href={"/"}>خدمات گردشگری</Link>
-            <Link href={"/"}>درباره ما</Link>
-            <Link href={"/"}>تماس با ما</Link>
+            <Link href="/">صفحه اصلی</Link>
+            <Link href="/">خدمات گردشگری</Link>
+            <Link href="/">درباره ما</Link>
+            <Link href="/">تماس با ما</Link>
           </div>
+
           <div className={styles.mobile_menu}>
             <button
               className={`${styles.button} ${styles.overlay}`}
@@ -39,35 +48,60 @@ function layout({ children }) {
             </button>
           </div>
         </div>
+
         <div>
           <div className={styles.desktop_menu}>
             <div className={styles.login_desktop}>
               <div className={styles.login_icon}>
                 <img src="/icon/profile.png" />
-                <button className={styles.mobile_buttom} onClick={toastHandler}>
-                  <span>ورود </span>
+
+                {/* 👇 ورود */}
+                <button
+                  className={styles.mobile_buttom}
+                  onClick={openLogin}
+                >
+                  <span>ورود</span>
                 </button>
+
                 <span>|</span>
               </div>
-              <button className={styles.mobile_buttom} onClick={toastHandler}>
+
+              {/* 👇 ثبت نام */}
+              <button
+                className={styles.mobile_buttom}
+                onClick={openRegister}
+              >
                 <span className={styles.signup}>ثبت نام</span>
               </button>
             </div>
           </div>
+
           <div className={styles.mobile_menu}>
-            <button className={styles.mobile_buttom} onClick={toastHandler}>
+            {/* موبایل → پیش‌فرض ورود */}
+            <button
+              className={styles.mobile_buttom}
+              onClick={openLogin}
+            >
               <img src="/icon/sign in buttom.png" />
             </button>
           </div>
         </div>
       </header>
-      {/* Overlay */}
+
+      {/* Overlay منوی موبایل */}
       {isOpen && (
-        <div className={styles.mobile_overlay} onClick={menuHandler} />
+        <div
+          className={styles.mobile_overlay}
+          onClick={menuHandler}
+        />
       )}
 
       {/* Mobile Drawer */}
-      <nav className={`${styles.mobile_drawer} ${isOpen ? styles.open : ""}`}>
+      <nav
+        className={`${styles.mobile_drawer} ${
+          isOpen ? styles.open : ""
+        }`}
+      >
         <Link href="/" onClick={menuHandler}>
           <IoHomeOutline /> صفحه اصلی
         </Link>
@@ -81,32 +115,44 @@ function layout({ children }) {
           <MdOutlinePermPhoneMsg /> تماس با ما
         </Link>
       </nav>
-      {isToastOpen && <AuthToast onClose={() => setIsToastOpen(false)} />}
+
+      {/* 🔥 Auth Toast */}
+      {isToastOpen && (
+        <AuthToast
+          mode={authMode}
+          onClose={() => setIsToastOpen(false)}
+        />
+      )}
+
       <div className={styles.dividerer_menu}></div>
-      <main className={`${styles.container} ${styles.main}`}>{children}</main>
+
+      <main className={`${styles.container} ${styles.main}`}>
+        {children}
+      </main>
+
+      {/* Footer دست‌نخورده */}
       <footer className={`${styles.foot_layout} ${styles.container}`}>
         <div className={styles.divider}></div>
         <div className={styles.footer_desktop}>
           <div className={styles.footer_links}>
             <div className={styles.torino_info}>
               <h1>تورینو</h1>
-              <Link href={"/"}>درباره ما</Link>
-              <Link href={"/"}>تماس با ما</Link>
-              <Link href={"/"}>چرا تورینو</Link>
-              <Link href={"/"}>بیمه مسافرتی</Link>
+              <Link href="/">درباره ما</Link>
+              <Link href="/">تماس با ما</Link>
+              <Link href="/">چرا تورینو</Link>
+              <Link href="/">بیمه مسافرتی</Link>
             </div>
             <div className={styles.torino_info}>
               <h1>خدمات مشتریان</h1>
-              <Link href={"/"}>پشتیبانی آنلاین</Link>
-              <Link href={"/"}>راهنمای خرید</Link>
-              <Link href={"/"}>راهنمای استرداد</Link>
-              <Link href={"/"}>پرسش و پاسخ</Link>
+              <Link href="/">پشتیبانی آنلاین</Link>
+              <Link href="/">راهنمای خرید</Link>
+              <Link href="/">راهنمای استرداد</Link>
+              <Link href="/">پرسش و پاسخ</Link>
             </div>
           </div>
+
           <div className={styles.footer_icons}>
-            <div
-              className={`${styles.footer_icons_img} ${styles.footer_icons_img}`}
-            >
+            <div className={styles.footer_icons_img}>
               <div className={styles.images}>
                 <img src="/image/ecunion-35c3c933.svg" />
                 <img src="/image/samandehi-6e2b448a.svg" />
@@ -117,12 +163,14 @@ function layout({ children }) {
                 <img src="/image/passenger-rights-48368f81 1.svg" />
               </div>
             </div>
+
             <div className={styles.footer_icons_logo}>
               <img src="/image/Torino (4) 1.png" />
-              <p>تلفن پشتیبانی:۸۵۷۴-۰۲۱ </p>
+              <p>تلفن پشتیبانی:۸۵۷۴-۰۲۱</p>
             </div>
           </div>
         </div>
+
         <div className={styles.divider_two}></div>
         <p className={styles.paragraph}>
           کلیه حقوق این وب سایت متعلق به تورینو میباشد.
@@ -132,4 +180,4 @@ function layout({ children }) {
   );
 }
 
-export default layout;
+export default Layout;
