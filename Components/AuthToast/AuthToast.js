@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSendOtp } from "@/hooks/useSendOtp";
 import styles from "./AuthToast.module.css";
+import Link from "next/link";
 
 export default function AuthToast({ onClose }) {
   const [step, setStep] = useState("PHONE");
@@ -56,10 +57,7 @@ export default function AuthToast({ onClose }) {
           <>
             <h2 className={styles.title}>ورود به تورینو</h2>
 
-            <form
-              className={styles.form}
-              onSubmit={handleSubmit(submitPhone)}
-            >
+            <form className={styles.form} onSubmit={handleSubmit(submitPhone)}>
               <div className={styles.field}>
                 <label>شماره موبایل خود را وارد کنید</label>
                 <input
@@ -68,7 +66,9 @@ export default function AuthToast({ onClose }) {
                   {...register("mobile", { required: true })}
                 />
               </div>
-
+              <p className={styles.loginPage}>
+                <Link href={"/"}>ثبت نام!</Link>
+              </p>
               <button
                 className={styles.submit}
                 disabled={sendOtpMutation.isPending}
@@ -84,7 +84,7 @@ export default function AuthToast({ onClose }) {
         {/* ===== مرحله OTP ===== */}
         {step === "OTP" && (
           <>
-            <h2 className={styles.title}>کد تایید</h2>
+            <h2 className={styles.title}>کد تایید را وارد کنید.</h2>
 
             <p className={styles.mobileHint}>
               کد به شماره <span>{mobile}</span> ارسال شد
@@ -98,20 +98,16 @@ export default function AuthToast({ onClose }) {
               <input maxLength={1} />
             </div>
 
-            <button className={styles.submit}>تایید</button>
-
             {timeLeft > 0 ? (
               <p className={styles.timer}>
                 ارسال مجدد تا {formatTime(timeLeft)}
               </p>
             ) : (
-              <button
-                className={styles.resend}
-                onClick={resendHandler}
-              >
+              <button className={styles.resend} onClick={resendHandler}>
                 ارسال مجدد کد
               </button>
             )}
+            <button className={styles.submit}>ورود به تورینو</button>
           </>
         )}
       </div>
