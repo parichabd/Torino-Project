@@ -117,8 +117,8 @@
 .mobile_drawer {
   position: fixed;
 
-  top: 2px;        /* فاصله از بالا */
-  bottom: 2px;     /* فاصله از پایین (اینجا border-radius پایین دیده میشه) */
+  top: 2px;       
+  bottom: 2px;     
   right: 0;
 
   width: 200px;
@@ -137,10 +137,9 @@
   border-radius: 16px 0 0 16px;
 }
 .mobile_drawer a {
-  display: flex;              /* 👈 مهم */
-  align-items: center;        /* 👈 هم‌سطح عمودی */
-  gap: 12px;                  /* فاصله آیکن و متن */
-
+  display: flex;             
+  align-items: center;        
+  gap: 12px;                  
   color: #282828;
   text-decoration: none;
   font-size: 16px;
@@ -256,11 +255,11 @@
 }
 
 .footer_icons_logo {
-  order: 1;   /* اول شماره تماس */
+  order: 1;   
 }
 
 .footer_icons_img {
-  order: 2;   /* بعد آیکن‌ها */
+  order: 2;   
 }
 .footer_icons_img {
   display: flex;
