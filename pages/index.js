@@ -1,8 +1,10 @@
+import Layout from "@/Components/layout/Layout";
+import MainPage from "../Components/home/index"
 function Home() {
   return (
-    <div>
-      <h1>home</h1>
-    </div>
+    <Layout>
+      <MainPage/>
+    </Layout>
   );
 }
 
