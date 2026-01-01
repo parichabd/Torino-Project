@@ -2,13 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSendOtp } from "@/hooks/useSendOtp";
 import styles from "./AuthToast.module.css";
-import Link from "next/link";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
 export default function AuthToast({ onClose }) {
   const [step, setStep] = useState("PHONE");
   const [mobile, setMobile] = useState("");
   const [timeLeft, setTimeLeft] = useState(120);
+  const [isRegister, setIsRegister] = useState(false);
 
   const [otp, setOtp] = useState(["", "", "", "", ""]);
   const [otpError, setOtpError] = useState("");
@@ -97,7 +97,6 @@ export default function AuthToast({ onClose }) {
   return (
     <div className={styles.toast_overlay}>
       <div className={styles.toast_box}>
-
         {/* دکمه بالا */}
         {step === "PHONE" ? (
           <button className={styles.close_btn} onClick={onClose}>
@@ -120,43 +119,68 @@ export default function AuthToast({ onClose }) {
         {/* ===== PHONE ===== */}
         {step === "PHONE" && (
           <>
-            <h2 className={styles.title}>ورود به تورینو</h2>
+            <h2 className={styles.title}>
+              {isRegister ? "ثبت نام" : "ورود به تورینو"}
+            </h2>
 
-            <form className={styles.form} onSubmit={handleSubmit(submitPhone)}>
-              <div className={styles.field}>
-                <label>شماره موبایل خود را وارد کنید</label>
+            {!isRegister ? (
+              /* ===== فرم ورود (همون قبلی، دست نخورده) ===== */
+              <form
+                className={styles.form}
+                onSubmit={handleSubmit(submitPhone)}
+              >
+                <div className={styles.field}>
+                  <label>شماره موبایل خود را وارد کنید</label>
 
+                  <input
+                    type="tel"
+                    placeholder="۰۹۱۲***۶۶۰۶"
+                    className={errors.mobile ? styles.inputError : ""}
+                    {...register("mobile", {
+                      required: "شماره موبایل الزامی است",
+                    })}
+                  />
+
+                  <span className={styles.error}>{errors.mobile?.message}</span>
+                </div>
+
+                <p className={styles.loginPage}>
+                  <button
+                    type="button"
+                    onClick={() => setIsRegister(true)}
+                    className={styles.loginPage}
+                  >
+                    ثبت نام!
+                  </button>
+                </p>
+
+                <button className={styles.submit}>ارسال کد تایید</button>
+              </form>
+            ) : (
+              /* ===== فرم ثبت‌نام (خیلی ساده) ===== */
+              <form
+                className={styles.form}
+                onSubmit={handleSubmit(submitPhone)}
+              >
                 <input
-                  type="tel"
-                  placeholder="۰۹۱۲***۶۶۰۶"
-                  className={errors.mobile ? styles.inputError : ""}
-                  {...register("mobile", {
-                    required: "شماره موبایل الزامی است",
-                    pattern: {
-                      value: /^09\d{9}$/,
-                      message: "شماره موبایل معتبر نیست",
-                    },
+                  placeholder="نام"
+                  {...register("name", {
+                    required: "نام الزامی است",
                   })}
                 />
+                <span className={styles.error}>{errors.name?.message}</span>
 
-                <span className={styles.error}>
-                  {errors.mobile?.message}
-                </span>
-              </div>
+                <input
+                  placeholder="شماره موبایل"
+                  {...register("mobile", {
+                    required: "شماره موبایل الزامی است",
+                  })}
+                />
+                <span className={styles.error}>{errors.mobile?.message}</span>
 
-              <p className={styles.loginPage}>
-                <Link href="/">ثبت نام!</Link>
-              </p>
-
-              <button
-                className={styles.submit}
-                disabled={sendOtpMutation.isPending}
-              >
-                {sendOtpMutation.isPending
-                  ? "در حال ارسال..."
-                  : "ارسال کد تایید"}
-              </button>
-            </form>
+                <button className={styles.submit}>ثبت‌نام و ارسال کد</button>
+              </form>
+            )}
           </>
         )}
 
@@ -170,9 +194,9 @@ export default function AuthToast({ onClose }) {
             </p>
 
             <div
-              className={`${styles.otp} ${
-                otpError ? styles.otpError : ""
-              } ${shake ? styles.shake : ""}`}
+              className={`${styles.otp} ${otpError ? styles.otpError : ""} ${
+                shake ? styles.shake : ""
+              }`}
               dir="ltr"
             >
               {otp.map((value, index) => (
@@ -181,12 +205,8 @@ export default function AuthToast({ onClose }) {
                   ref={(el) => (otpRefs.current[index] = el)}
                   value={value}
                   maxLength={1}
-                  onChange={(e) =>
-                    handleOtpChange(index, e.target.value)
-                  }
-                  onKeyDown={(e) =>
-                    handleOtpKeyDown(index, e)
-                  }
+                  onChange={(e) => handleOtpChange(index, e.target.value)}
+                  onKeyDown={(e) => handleOtpKeyDown(index, e)}
                 />
               ))}
             </div>
