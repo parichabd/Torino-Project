@@ -100,7 +100,7 @@ export default function AuthToast({ onClose }) {
 
             {timeLeft > 0 ? (
               <p className={styles.timer}>
-                ارسال مجدد تا {formatTime(timeLeft)}
+                {formatTime(timeLeft)} تا ارسال مجدد
               </p>
             ) : (
               <button className={styles.resend} onClick={resendHandler}>
