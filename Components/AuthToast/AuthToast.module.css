@@ -11,7 +11,7 @@
 
 .toast_box {
   width: 335px;
-  height: 345px;
+  height: 378px;
   max-width: 95%;
   background: #fff;
   border-radius: 20px;
@@ -133,6 +133,40 @@
   display: block;
   margin: 15px auto;
   font-family: "BYekan";
+}
+.error {
+  min-height: 18px;   /* فضای رزرو شده */
+  margin-top: 4px;
+  font-size: 13px;
+  color: #e63946;
+  text-align: right;
+}
+
+.inputError {
+  border-color: #e63946;
+}
+
+.error {
+  min-height: 18px;
+  font-size: 13px;
+  color: #e63946;
+  text-align: center;
+}
+
+.otpError input {
+  border-color: #e63946;
+}
+
+.shake {
+  animation: shake 0.35s;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-4px); }
+  100% { transform: translateX(0); }
 }
 
 @keyframes fadeUp {
