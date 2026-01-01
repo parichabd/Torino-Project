@@ -6,6 +6,10 @@
   font-family: "BYekan", sans-serif;
 }
 
+.button{
+  all: unset;
+}
+
 
 .container {
   width: 100%;
@@ -109,6 +113,52 @@
   margin-top: 10px;
 }
 
+
+.mobile_drawer {
+  position: fixed;
+
+  top: 2px;        /* فاصله از بالا */
+  bottom: 2px;     /* فاصله از پایین (اینجا border-radius پایین دیده میشه) */
+  right: 0;
+
+  width: 200px;
+  background: #fff;
+
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+
+  z-index: 1001;
+  padding: 32px 12px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+
+  border-radius: 16px 0 0 16px;
+}
+.mobile_drawer a {
+  display: flex;              /* 👈 مهم */
+  align-items: center;        /* 👈 هم‌سطح عمودی */
+  gap: 12px;                  /* فاصله آیکن و متن */
+
+  color: #282828;
+  text-decoration: none;
+  font-size: 16px;
+}
+.mobile_drawer a:hover {
+  color: #28A745;
+}
+
+.open {
+  transform: translateX(0);
+}
+
+.mobile_overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
 
 @media (min-width: 768px) {
   .container {
@@ -226,5 +276,7 @@
   display: flex;
   gap: 120px;
 }
-  
+  .mobile_drawer{
+    display: none;
+  }
 }
