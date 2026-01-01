@@ -5,10 +5,10 @@ import styles from "./AuthToast.module.css";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
 export default function AuthToast({ onClose }) {
-  const [step, setStep] = useState("PHONE");
+  const [step, setStep] = useState("PHONE"); // PHONE | OTP
+  const [isRegister, setIsRegister] = useState(false);
   const [mobile, setMobile] = useState("");
   const [timeLeft, setTimeLeft] = useState(120);
-  const [isRegister, setIsRegister] = useState(false);
 
   const [otp, setOtp] = useState(["", "", "", "", ""]);
   const [otpError, setOtpError] = useState("");
@@ -20,11 +20,12 @@ export default function AuthToast({ onClose }) {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
   const sendOtpMutation = useSendOtp();
 
-  /* ⏱ تایمر */
+  /* ⏱ تایمر OTP */
   useEffect(() => {
     if (step !== "OTP" || timeLeft <= 0) return;
 
@@ -47,7 +48,7 @@ export default function AuthToast({ onClose }) {
     });
   };
 
-  /* ارسال مجدد */
+  /* ارسال مجدد کد */
   const resendHandler = () => {
     sendOtpMutation.mutate(mobile);
     setTimeLeft(120);
@@ -90,23 +91,35 @@ export default function AuthToast({ onClose }) {
 
     const code = otp.join("");
     console.log("OTP:", code);
-
-    // 🔗 اینجا بعداً verifyOtp API
+    // TODO: verifyOtp API
   };
 
   return (
     <div className={styles.toast_overlay}>
       <div className={styles.toast_box}>
-        {/* دکمه بالا */}
+        {/* ===== دکمه بالا ===== */}
         {step === "PHONE" ? (
-          <button className={styles.close_btn} onClick={onClose}>
-            ✕
-          </button>
+          isRegister ? (
+            <button
+              className={styles.back_btn}
+              onClick={() => {
+                setIsRegister(false);
+                reset();
+              }}
+            >
+              <FaArrowLeftLong />
+            </button>
+          ) : (
+            <button className={styles.close_btn} onClick={onClose}>
+              ✕
+            </button>
+          )
         ) : (
           <button
             className={styles.back_btn}
             onClick={() => {
               setStep("PHONE");
+              setIsRegister(false);
               setOtp(["", "", "", "", ""]);
               setOtpError("");
               setTimeLeft(120);
@@ -124,7 +137,7 @@ export default function AuthToast({ onClose }) {
             </h2>
 
             {!isRegister ? (
-              /* ===== فرم ورود (همون قبلی، دست نخورده) ===== */
+              /* ===== فرم ورود ===== */
               <form
                 className={styles.form}
                 onSubmit={handleSubmit(submitPhone)}
@@ -141,7 +154,9 @@ export default function AuthToast({ onClose }) {
                     })}
                   />
 
-                  <span className={styles.error}>{errors.mobile?.message}</span>
+                  <span className={styles.error}>
+                    {errors.mobile?.message}
+                  </span>
                 </div>
 
                 <p className={styles.loginPage}>
@@ -154,10 +169,12 @@ export default function AuthToast({ onClose }) {
                   </button>
                 </p>
 
-                <button className={styles.submit}>ارسال کد تایید</button>
+                <button className={styles.submit}>
+                  ارسال کد تایید
+                </button>
               </form>
             ) : (
-              /* ===== فرم ثبت‌نام (خیلی ساده) ===== */
+              /* ===== فرم ثبت‌نام ساده ===== */
               <form
                 className={styles.form}
                 onSubmit={handleSubmit(submitPhone)}
@@ -168,7 +185,9 @@ export default function AuthToast({ onClose }) {
                     required: "نام الزامی است",
                   })}
                 />
-                <span className={styles.error}>{errors.name?.message}</span>
+                <span className={styles.error}>
+                  {errors.name?.message}
+                </span>
 
                 <input
                   placeholder="شماره موبایل"
@@ -176,9 +195,13 @@ export default function AuthToast({ onClose }) {
                     required: "شماره موبایل الزامی است",
                   })}
                 />
-                <span className={styles.error}>{errors.mobile?.message}</span>
+                <span className={styles.error}>
+                  {errors.mobile?.message}
+                </span>
 
-                <button className={styles.submit}>ثبت‌نام و ارسال کد</button>
+                <button className={styles.submit}>
+                  ثبت‌نام و ارسال کد
+                </button>
               </form>
             )}
           </>
@@ -194,9 +217,9 @@ export default function AuthToast({ onClose }) {
             </p>
 
             <div
-              className={`${styles.otp} ${otpError ? styles.otpError : ""} ${
-                shake ? styles.shake : ""
-              }`}
+              className={`${styles.otp} ${
+                otpError ? styles.otpError : ""
+              } ${shake ? styles.shake : ""}`}
               dir="ltr"
             >
               {otp.map((value, index) => (
@@ -205,8 +228,12 @@ export default function AuthToast({ onClose }) {
                   ref={(el) => (otpRefs.current[index] = el)}
                   value={value}
                   maxLength={1}
-                  onChange={(e) => handleOtpChange(index, e.target.value)}
-                  onKeyDown={(e) => handleOtpKeyDown(index, e)}
+                  onChange={(e) =>
+                    handleOtpChange(index, e.target.value)
+                  }
+                  onKeyDown={(e) =>
+                    handleOtpKeyDown(index, e)
+                  }
                 />
               ))}
             </div>
@@ -218,7 +245,10 @@ export default function AuthToast({ onClose }) {
                 {formatTime(timeLeft)} تا ارسال مجدد کد
               </p>
             ) : (
-              <button className={styles.resend} onClick={resendHandler}>
+              <button
+                className={styles.resend}
+                onClick={resendHandler}
+              >
                 ارسال مجدد کد
               </button>
             )}
