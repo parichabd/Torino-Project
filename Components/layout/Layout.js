@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./layout.module.css";
 import Link from "next/link";
+import AuthToast from "../AuthToast/AuthToast";
 
 import { IoHomeOutline } from "react-icons/io5";
 import { MdOutlineAirplaneTicket } from "react-icons/md";
@@ -9,8 +10,13 @@ import { MdOutlinePermPhoneMsg } from "react-icons/md";
 
 function layout({ children }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isToastOpen, setIsToastOpen] = useState(false);
   const menuHandler = () => {
     setIsOpen((isOpen) => !isOpen);
+  };
+
+  const toastHandler = () => {
+    setIsToastOpen((isToastOpen) => !isToastOpen);
   };
 
   return (
@@ -38,42 +44,44 @@ function layout({ children }) {
             <div className={styles.login_desktop}>
               <div className={styles.login_icon}>
                 <img src="/icon/profile.png" />
-                <span>ورود </span>
+                <button className={styles.mobile_buttom} onClick={toastHandler}>
+                  <span>ورود </span>
+                </button>
                 <span>|</span>
               </div>
-              <span className={styles.signup}>ثبت نام</span>
+              <button className={styles.mobile_buttom} onClick={toastHandler}>
+                <span className={styles.signup}>ثبت نام</span>
+              </button>
             </div>
           </div>
           <div className={styles.mobile_menu}>
-            <Link href={"/"}>
+            <button className={styles.mobile_buttom} onClick={toastHandler}>
               <img src="/icon/sign in buttom.png" />
-            </Link>
+            </button>
           </div>
         </div>
       </header>
       {/* Overlay */}
       {isOpen && (
-        <div
-          className={styles.mobile_overlay}
-          onClick={menuHandler}
-        />
+        <div className={styles.mobile_overlay} onClick={menuHandler} />
       )}
 
       {/* Mobile Drawer */}
       <nav className={`${styles.mobile_drawer} ${isOpen ? styles.open : ""}`}>
         <Link href="/" onClick={menuHandler}>
-         <IoHomeOutline /> صفحه اصلی 
+          <IoHomeOutline /> صفحه اصلی
         </Link>
         <Link href="/" onClick={menuHandler}>
-         <MdOutlineAirplaneTicket /> خدمات گردشگری
+          <MdOutlineAirplaneTicket /> خدمات گردشگری
         </Link>
         <Link href="/" onClick={menuHandler}>
-         <PiUserSoundDuotone /> درباره ما
+          <PiUserSoundDuotone /> درباره ما
         </Link>
         <Link href="/" onClick={menuHandler}>
-         <MdOutlinePermPhoneMsg /> تماس با ما
+          <MdOutlinePermPhoneMsg /> تماس با ما
         </Link>
       </nav>
+      {isToastOpen && <AuthToast onClose={() => setIsToastOpen(false)} />}
       <div className={styles.dividerer_menu}></div>
       <main className={`${styles.container} ${styles.main}`}>{children}</main>
       <footer className={`${styles.foot_layout} ${styles.container}`}>
