@@ -169,6 +169,22 @@
   margin-top: 8px;
 }
 
+
+.back_btn {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 22px;
+  color: #282828;
+}
+
+.back_btn:hover {
+  color: #28a745;
+}
+
 @keyframes shake {
   0% { transform: translateX(0); }
   25% { transform: translateX(-4px); }

@@ -3,11 +3,13 @@ import { useForm } from "react-hook-form";
 import { useSendOtp } from "@/hooks/useSendOtp";
 import styles from "./AuthToast.module.css";
 import Link from "next/link";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 export default function AuthToast({ onClose }) {
   const [step, setStep] = useState("PHONE");
   const [mobile, setMobile] = useState("");
   const [timeLeft, setTimeLeft] = useState(120);
+
   const [otp, setOtp] = useState(["", "", "", "", ""]);
   const [otpError, setOtpError] = useState("");
   const [shake, setShake] = useState(false);
@@ -33,8 +35,10 @@ export default function AuthToast({ onClose }) {
     return () => clearInterval(timer);
   }, [step, timeLeft]);
 
+  /* ارسال شماره */
   const submitPhone = (data) => {
     setMobile(data.mobile);
+
     sendOtpMutation.mutate(data.mobile, {
       onSuccess: () => {
         setStep("OTP");
@@ -43,6 +47,7 @@ export default function AuthToast({ onClose }) {
     });
   };
 
+  /* ارسال مجدد */
   const resendHandler = () => {
     sendOtpMutation.mutate(mobile);
     setTimeLeft(120);
@@ -54,7 +59,7 @@ export default function AuthToast({ onClose }) {
     return `${m}:${s.toString().padStart(2, "0")}`;
   };
 
-  /* ===== OTP Logic ===== */
+  /* ===== OTP ===== */
 
   const handleOtpChange = (index, value) => {
     if (!/^\d?$/.test(value)) return;
@@ -86,15 +91,31 @@ export default function AuthToast({ onClose }) {
     const code = otp.join("");
     console.log("OTP:", code);
 
-    // ❗️اینجا بعداً وصل میشه به verifyOtp API
+    // 🔗 اینجا بعداً verifyOtp API
   };
 
   return (
     <div className={styles.toast_overlay}>
       <div className={styles.toast_box}>
-        <button className={styles.close_btn} onClick={onClose}>
-          ✕
-        </button>
+
+        {/* دکمه بالا */}
+        {step === "PHONE" ? (
+          <button className={styles.close_btn} onClick={onClose}>
+            ✕
+          </button>
+        ) : (
+          <button
+            className={styles.back_btn}
+            onClick={() => {
+              setStep("PHONE");
+              setOtp(["", "", "", "", ""]);
+              setOtpError("");
+              setTimeLeft(120);
+            }}
+          >
+            <FaArrowLeftLong />
+          </button>
+        )}
 
         {/* ===== PHONE ===== */}
         {step === "PHONE" && (
@@ -170,9 +191,7 @@ export default function AuthToast({ onClose }) {
               ))}
             </div>
 
-            <div className={styles.errorBox}>
-              {otpError}
-            </div>
+            <div className={styles.errorBox}>{otpError}</div>
 
             {timeLeft > 0 ? (
               <p className={styles.timer}>
