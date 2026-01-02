@@ -1,9 +1,10 @@
-import React from 'react'
+// components/home/index.js
+import TourDetails from "./Tour";
 
-function MainPage() {
+export default function MainPage({ tours }) {
   return (
-    <div>MainPage</div>
-  )
+    <div>
+      <TourDetails tours={tours} />
+    </div>
+  );
 }
-
-export default MainPage
