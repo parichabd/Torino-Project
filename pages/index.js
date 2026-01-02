@@ -1,31 +1,22 @@
-// pages/index.js
-import Layout from "@/Components/layout/Layout";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
+import api from "@/services/api";
 import MainPage from "@/Components/home";
 
 export async function getServerSideProps() {
-  const res = await fetch("http://localhost:6500/tour");
+  const queryClient = new QueryClient();
 
-  if (!res.ok) {
-    return {
-      props: {
-        tours: [],
-      },
-    };
-  }
-
-  const tours = await res.json();
+  await queryClient.prefetchQuery({
+    queryKey: ["tours"],
+    queryFn: () => api.get("/tour").then((res) => res.data),
+  });
 
   return {
     props: {
-      tours,
+      dehydratedState: dehydrate(queryClient),
     },
   };
 }
 
-export default function Home({ tours }) {
-  return (
-    <Layout>
-      <MainPage tours={tours} />
-    </Layout>
-  );
+export default function Home() {
+  return <MainPage />;
 }
