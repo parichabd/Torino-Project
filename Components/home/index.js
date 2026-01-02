@@ -23,6 +23,7 @@ export default function MainPage() {
 
   return (
     <Layout>
+      
       <TourDetails tours={data} />
     </Layout>
   );
